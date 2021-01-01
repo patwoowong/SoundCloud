@@ -23,17 +23,17 @@ def download_from_id(client_id, track_id, dir, override=False):
 def download(client, track, dir, override=False):
     """Download a track using the given SC client"""
     title = fix_title(track.title, track.user['username'])
-    print '"%s"' % title
+    print ('"%s"' % title)
     if not dir: dir = 'mp3'
     utils.create_dir(dir)
     file_name = utils.build_file_name(dir, title)
 
     if not override and os.path.exists(file_name):
-        print "File already exists, skipped"
+        print ("File already exists, skipped")
         return False
 
     stream_url = client.get(track.stream_url, allow_redirects=False)
-    urllib.urlretrieve(stream_url.location, file_name)
+    urllib.request.urlretrieve(stream_url.location, file_name)
     return True
 
 

@@ -13,13 +13,12 @@ https://github.com/soundcloud/soundcloud-python
 pip install soundcloud
 """
 
-import argparse, requests, urllib2
+import argparse, requests, urllib
 import track, playlist
 
 
 def print_download_stats(stats):
-    print "Downloaded: %d, Skipped: %d, Errors: %d" % (
-            stats['downloaded'], stats['skipped'], stats['errors'])
+    print ("Downloaded: %d, Skipped: %d, Errors: %d" % ( stats['downloaded'], stats['skipped'], stats['errors']))
 
 
 parser = argparse.ArgumentParser(description='Download a SoundCloud tracks and playlists')
@@ -49,11 +48,11 @@ try:
         print_download_stats(stats)
     else:
         parser.print_help()
-        print '\nError: you must specify either a track, a public (or shared) playlist or a user'
+        print ('\nError: you must specify either a track, a public (or shared) playlist or a user')
         exit(1)
-except urllib2.HTTPError, err:
+except urllib.error.HTTPError as err:
     if err.code == 404:
-        print error_msg
+        print (error_msg)
         exit(1)
     else:
         raise

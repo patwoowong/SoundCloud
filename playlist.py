@@ -5,7 +5,7 @@ from collections import Counter
 import utils, track
 
 
-def download_from_url(client_id, url, base_dir, override=False):
+def download_from_url(client_id, url, base_dir, override=False, base_path='/Volumes/media/music/'):
     """Download the given playlist"""
     downloaded = 0
     skipped = 0
@@ -17,7 +17,7 @@ def download_from_url(client_id, url, base_dir, override=False):
 
     # Create dir
     playlist_title = playlist.title
-    dir = os.path.join(base_dir, playlist_title)
+    dir = os.path.join(base_path, base_dir, playlist_title)
     utils.create_dir(dir)
 
     # Download tracks
@@ -27,14 +27,14 @@ def download_from_url(client_id, url, base_dir, override=False):
             done = track.download_from_id(client_id, trak['id'], dir, override)
             if done: downloaded = downloaded + 1
             else: skipped = skipped + 1
-        except requests.exceptions.HTTPError, err:
+        except requests.exceptions.HTTPError as err:
             if err.response.status_code == 404:
-                print 'Error: could not download'
+                print ('Error: could not download')
                 errors = errors + 1
             else:
                 raise
 
-    print 'Playlist downloaded to "%s"' % playlist_title
+    print ('Playlist downloaded to "%s"' % playlist_title)
     return Counter({
         'downloaded': downloaded, 'skipped': skipped, 'errors': errors
     })
@@ -48,8 +48,8 @@ def download_all(client_id, user_url, base_dir, override=False):
     stats = Counter()
 
     for playlist in playlists:
-        print 'Playlist: "%s"' % playlist.title
-        playlist_stats = download_from_url(client_id, playlist.permalink_url, base_dir, override)
+        print ('Playlist: "%s"' % playlist.title)
+        playlist_stats = download_from_url(client_id, playlist.permalink_url, user.obj.get('username'), override)
         stats = stats + playlist_stats
 
     return stats
