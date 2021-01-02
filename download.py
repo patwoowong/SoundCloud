@@ -25,6 +25,7 @@ parser = argparse.ArgumentParser(description='Download a SoundCloud tracks and p
 parser.add_argument('--track', '-t', help="Track full URL")
 parser.add_argument('--playlist', '-p', help="Public or shared playlist URL")
 parser.add_argument('--all', '-a', help="User URL. Download all tracks for all public playlists")
+parser.add_argument('--all_tracks', '-at', help="User URL. Download all tracks whether in playlist or not")
 parser.add_argument('--id', help='Client ID', required=True)
 parser.add_argument(
         '--override', '-d', action='store_true',
@@ -45,6 +46,10 @@ try:
     elif args.all:
         error_msg = 'Error: User not found'
         stats = playlist.download_all(args.id, args.all, base_dir=dir, override=args.override)
+        print_download_stats(stats)
+    elif args.all_tracks:
+        error_msg = 'Error: User not found'
+        stats = playlist.download_all_tracks(args.id, args.all_tracks, base_dir=dir, override=args.override)
         print_download_stats(stats)
     else:
         parser.print_help()
