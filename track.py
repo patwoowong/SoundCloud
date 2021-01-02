@@ -10,14 +10,14 @@ def download_from_url(client_id, track_url, dir, override=False):
     """Download from URL"""
     client = soundcloud.Client(client_id=client_id)
     track = client.get('/resolve', url=track_url)
-    download(client, track, dir, override)
+    return download(client, track, dir, override)
 
 
 def download_from_id(client_id, track_id, dir, override=False):
     """Download using the song id"""
     client = soundcloud.Client(client_id=client_id)
     track = client.get('/tracks/%d' % track_id, allow_redirects=False)
-    download(client, track, dir, override)
+    return download(client, track, dir, override)
 
 
 def download(client, track, dir, override=False):

@@ -98,7 +98,7 @@ def download_all_tracks(client_id, user_url, base_dir, override=False, base_path
             else:
                 raise
 
-    print(f'Playlist downloaded to "{dir}"')
+    print(f'All Tracks downloaded to "{dir}"')
     return Counter({
         'downloaded': downloaded, 'skipped': skipped, 'errors': errors
     })
